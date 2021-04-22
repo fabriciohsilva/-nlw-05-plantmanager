@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import {
   Text,
@@ -11,6 +10,8 @@ import {
   Platform,
   Keyboard,
 } from "react-native";
+
+import { useNavigation } from "@react-navigation/core";
 
 import { Button } from "../components/Button";
 
@@ -46,7 +47,8 @@ export function UserIdentification() {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"} >
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.content}>
             <View style={styles.form}>
