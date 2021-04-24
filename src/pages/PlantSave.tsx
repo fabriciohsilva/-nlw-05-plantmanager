@@ -22,6 +22,7 @@ import { PlantProps, savePlant } from "../libs/storage";
 
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface Params {
   plant: PlantProps;
@@ -37,7 +38,7 @@ export function PlantSave() {
   const { plant } = route.params as Params;
 
   useEffect(() => {
-    console
+    console;
   }, []);
 
   function handleChangeTime(event: Event, dateTime: Date | undefined) {
@@ -64,60 +65,64 @@ export function PlantSave() {
       await savePlant({ ...plant, dateTimeNotification: selectedDateTime });
 
       navigation.navigate("Confirmation", {
-        title: 'Tudo certo',
-        subTitle: 'Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com muito cuidado.',
-        buttonText: 'Muito Obrigado',
-        icon: 'hug',
-        nextScreen: 'MyPlants',
+        title: "Tudo certo",
+        subTitle:
+          "Fique tranquilo que sempre vamos lembrar você de cuidar da sua plantinha com muito cuidado.",
+        buttonText: "Muito Obrigado",
+        icon: "hug",
+        nextScreen: "MyPlants",
       });
-
     } catch (error) {
       Alert.alert("Não foi possível salvar.");
     }
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.plantInfo}>
-        <SvgFromUri uri={plant.photo} width={150} height={150} />
-
-        <Text style={styles.plantName}>{plant.name}</Text>
-        <Text style={styles.plantAbout}>{plant.about}</Text>
-      </View>
-
-      <View style={styles.controller}>
-        <View style={styles.tipContainer}>
-          <Image style={styles.tipImage} source={waterDrop} />
-          <Text style={styles.tipText}>{plant.water_tips}</Text>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
+      <View style={styles.container}>
+        <View style={styles.plantInfo}>
+          <SvgFromUri uri={plant.photo} width={150} height={150} />
+          <Text style={styles.plantName}>{plant.name}</Text>
+          <Text style={styles.plantAbout}>{plant.about}</Text>
         </View>
-        <Text style={styles.alertLabel}>
-          Escolha o melhor horário para ser lembrado
-        </Text>
 
-        {showDatePicker && (
-          <DateTimePicker
-            value={selectedDateTime}
-            mode="time"
-            display="spinner"
-            onChange={handleChangeTime}
-          />
-        )}
+        <View style={styles.controller}>
+          <View style={styles.tipContainer}>
+            <Image style={styles.tipImage} source={waterDrop} />
+            <Text style={styles.tipText}>{plant.water_tips}</Text>
+          </View>
+          <Text style={styles.alertLabel}>
+            Escolha o melhor horário para ser lembrado
+          </Text>
 
-        {Platform.OS === "android" && (
-          <TouchableOpacity
-            style={styles.dateTimePickerButton}
-            onPress={handleOpenDateTimePickerForAndroid}
-          >
-            <Text style={styles.dateTimePickerText}>{`Mudar horário ${format(
-              selectedDateTime,
-              "HH:mm"
-            )}`}</Text>
-          </TouchableOpacity>
-        )}
+          {showDatePicker && (
+            <DateTimePicker
+              value={selectedDateTime}
+              mode="time"
+              display="spinner"
+              onChange={handleChangeTime}
+            />
+          )}
 
-        <Button text="Cadastrar planta" onPress={handleSave} />
+          {Platform.OS === "android" && (
+            <TouchableOpacity
+              style={styles.dateTimePickerButton}
+              onPress={handleOpenDateTimePickerForAndroid}
+            >
+              <Text style={styles.dateTimePickerText}>{`Mudar horário ${format(
+                selectedDateTime,
+                "HH:mm"
+              )}`}</Text>
+            </TouchableOpacity>
+          )}
+
+          <Button text="Cadastrar planta" onPress={handleSave} />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -125,15 +130,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
-    alignItems: "center",
+    backgroundColor: colors.shape,
   },
   plantInfo: {
     flex: 1,
     paddingHorizontal: 30,
     paddingVertical: 50,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.shape,
+  },
+  controller: {
+    backgroundColor: colors.white,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: getBottomSpace() || 20,
   },
   plantName: {
     fontFamily: fonts.heading,
@@ -148,13 +159,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginTop: 10,
   },
-  controller: {
-    alignItems: "center",
-    backgroundColor: colors.white,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: getBottomSpace() || 20,
-  },
   tipContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -163,7 +167,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
     position: "relative",
-    bottom: 60,
+    // bottom: 60,
   },
   tipImage: {
     width: 56,
